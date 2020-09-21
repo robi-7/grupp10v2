@@ -32,7 +32,6 @@
                         <Button layoutX="41.0" layoutY="176.0" mnemonicParsing="false" text="Register Course" />
                         <Button layoutX="41.0" layoutY="220.0" mnemonicParsing="false" text="Registration of Student on a Course" />
                         <TextField layoutX="41.0" layoutY="43.0" promptText="courseID" />
-                        <TextField layoutX="41.0" layoutY="43.0" promptText="courseID" />
                         <TextField layoutX="41.0" layoutY="88.0" promptText="courseName " />
                         <TextField layoutX="41.0" layoutY="131.0" promptText="credits" />
                      </children>

@@ -1,5 +1,7 @@
 package application;
 	
+import java.sql.*;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -22,6 +24,30 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		
+		
+		try
+	    {
+	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	        String url = "jdbc:sqlserver://localhost:1433;database=master;";
+	        String loginName = "sa";
+	        String password = "AlexandraAmarOgnjenRobert1!";
+	        Connection con = DriverManager.getConnection(url,loginName,password);
+	        
+	        String query = "SELECT * FROM Course";
+	        PreparedStatement ps = con.prepareStatement(query);
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	        	System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
+	        }
+	    }
+	    catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		launch(args);
 	}
 }
