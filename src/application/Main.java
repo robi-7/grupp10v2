@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 
+
+
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -29,7 +31,7 @@ public class Main extends Application {
 		try
 	    {
 	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	        String url = "jdbc:sqlserver://localhost:1433;database=master;";
+	        String url = "jdbc:sqlserver://localhost:1433;database=Assignment1;";
 	        String loginName = "sa";
 	        String password = "AlexandraAmarOgnjenRobert1!";
 	        Connection con = DriverManager.getConnection(url,loginName,password);
