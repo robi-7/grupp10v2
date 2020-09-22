@@ -12,6 +12,9 @@ import javafx.scene.Scene;
 
 
 public class Main extends Application {
+	
+	
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -25,29 +28,15 @@ public class Main extends Application {
 		}
 	}
 	
-	public static void main(String[] args) {
-		
-		
-		try
-	    {
-	        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	        String url = "jdbc:sqlserver://localhost:1433;database=Assignment1;";
-	        String loginName = "sa";
-	        String password = "AlexandraAmarOgnjenRobert1!";
-	        Connection con = DriverManager.getConnection(url,loginName,password);
-	        
-	        String query = "SELECT * FROM Course";
-	        PreparedStatement ps = con.prepareStatement(query);
-	        ResultSet rs = ps.executeQuery();
-	        
-	        while (rs.next()) {
-	        	System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
-	        }
-	    }
-	    catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch (Exception e) {
+	public static void main(String[] args) {		
+		Controller controller = new Controller();
+		try {
+			ResultSet rs = controller.getStudent("S001");
+			
+			while(rs.next()) {
+				System.out.println(rs.getString(1) + " - " + rs.getString(2) + " - " + rs.getString(3) + " - " + rs.getString(4) + " - " + rs.getString(5));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		launch(args);
