@@ -31,10 +31,12 @@ public class Main extends Application {
 	public static void main(String[] args) {		
 		Controller controller = new Controller();
 		try {
-			ResultSet student = controller.getStudent("S001");
-			ResultSet course = controller.getCourse("C001");
-			ResultSet studies = controller.getStudies("S004","C004");
-			ResultSet hasStudied = controller.getHasStudied("S001","C002");
+			controller.registerHasStudied("A", "C005", "S004");
+			ResultSet student = controller.getStudent("S004");
+			
+			ResultSet course = controller.getCourse("C005");
+			ResultSet studies = controller.getStudies("C001", "S002");
+			ResultSet hasStudied = controller.getHasStudied("C005","S004");
 			
 			while(student.next()) {
 				System.out.println(student.getString(1) + " - " + student.getString(2) + " - " + student.getString(3) + " - " + student.getString(4) + " - " + student.getString(5));
