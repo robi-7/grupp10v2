@@ -31,11 +31,24 @@ public class Main extends Application {
 	public static void main(String[] args) {		
 		Controller controller = new Controller();
 		try {
-			ResultSet rs = controller.getStudent("S001");
+			ResultSet student = controller.getStudent("S001");
+			ResultSet course = controller.getCourse("C001");
+			ResultSet studies = controller.getStudies("S004","C004");
+			ResultSet hasStudied = controller.getHasStudied("S001","C002");
 			
-			while(rs.next()) {
-				System.out.println(rs.getString(1) + " - " + rs.getString(2) + " - " + rs.getString(3) + " - " + rs.getString(4) + " - " + rs.getString(5));
+			while(student.next()) {
+				System.out.println(student.getString(1) + " - " + student.getString(2) + " - " + student.getString(3) + " - " + student.getString(4) + " - " + student.getString(5));
 			}
+			while(course.next()) {
+				System.out.println(course.getString(1) + " - " + course.getString(2) + " - " + course.getString(3));
+			}
+			while(studies.next()) {
+				System.out.println(studies.getString(1) + " - " + studies.getString(2));
+			}
+			while(hasStudied.next()) {
+				System.out.println(hasStudied.getString(1) + " - " + hasStudied.getString(2) + " - " + hasStudied.getString(3));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
