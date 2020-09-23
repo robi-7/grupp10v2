@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -11,13 +13,13 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="4.0" prefHeight="735.0" prefWidth="605.0">
+      <Pane layoutX="4.0" prefHeight="735.0" prefWidth="766.0">
          <children>
-            <TabPane layoutX="-4.0" layoutY="-1.0" prefHeight="389.0" prefWidth="611.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="-4.0" layoutY="-1.0" prefHeight="735.0" prefWidth="770.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Student">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="702.0" prefWidth="676.0">
                            <children>
                               <TextField layoutX="180.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" promptText="Format: S000" />
                               <Label layoutX="20.0" layoutY="20.0" text="Student ID:">
@@ -53,6 +55,22 @@
                               <Button layoutX="277.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete" />
                               <Button layoutX="148.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Find" />
                               <Label layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
+                              <TableView layoutX="21.0" layoutY="293.0" prefHeight="303.0" prefWidth="569.0">
+                                <columns>
+                                  <TableColumn prefWidth="83.0" text="Student ID" />
+                                  <TableColumn prefWidth="153.0" text="Name" />
+                                    <TableColumn prefWidth="96.0" text="Ssn" />
+                                    <TableColumn prefWidth="97.0" text="Address" />
+                                    <TableColumn prefWidth="141.0" text="Email" />
+                                </columns>
+                              </TableView>
+                              <TableView layoutX="482.0" layoutY="29.0" prefHeight="200.0" prefWidth="216.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Course ID" />
+                                  <TableColumn prefWidth="83.0" text="Name" />
+                                    <TableColumn prefWidth="56.0" text="Grade" />
+                                </columns>
+                              </TableView>
                            </children>
                         </AnchorPane>
                   </content>
