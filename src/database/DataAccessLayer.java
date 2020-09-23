@@ -31,6 +31,17 @@ public class DataAccessLayer {
 		Statement statement = con.createStatement();
 		statement.executeUpdate(query);
 	}
+	public void deleteStudent(String studentID) throws SQLException {
+		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE studentID = '"+ studentID +"'";
+		Statement statementHasStudied = con.createStatement();
+		statementHasStudied.executeUpdate(queryDeleteHasStudied);
+		String queryDeleteStudies = "DELETE FROM Studies WHERE studentID = '"+ studentID +"'";
+		Statement statementStudies = con.createStatement();
+		statementStudies.executeUpdate(queryDeleteStudies);
+		String queryDeleteStudent = "DELETE FROM Student WHERE studentID = '"+ studentID +"'";
+		Statement statementStudent = con.createStatement();
+		statementStudent.executeUpdate(queryDeleteStudent);
+	}
 	
 	public ResultSet getCourse(String courseID) throws SQLException {
 		String query = "SELECT * FROM Course WHERE courseID = '" + courseID + "'";
@@ -44,7 +55,17 @@ public class DataAccessLayer {
 		Statement statement = con.createStatement();
 		statement.executeUpdate(query);
 	}
-	
+	public void deleteCourse(String courseID) throws SQLException {
+		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE courseID = '"+ courseID +"'";
+		Statement statementHasStudied = con.createStatement();
+		statementHasStudied.executeUpdate(queryDeleteHasStudied);
+		String queryDeleteStudies = "DELETE FROM Studies WHERE courseID = '"+ courseID +"'";
+		Statement statementStudies = con.createStatement();
+		statementStudies.executeUpdate(queryDeleteStudies);
+		String queryDeleteCourse = "DELETE FROM Course WHERE courseID = '"+ courseID +"'";
+		Statement statementCourse = con.createStatement();
+		statementCourse.executeUpdate(queryDeleteCourse);
+	}
 	
 	public ResultSet getStudies(String courseID, String studentID) throws SQLException {
 		String query = "SELECT * FROM Studies WHERE studentID = '" + studentID + "' AND courseID = '" + courseID + "'";
@@ -58,7 +79,12 @@ public class DataAccessLayer {
 		Statement statement = con.createStatement();
 		statement.executeUpdate(query);
 	}
-	
+	public void deleteStudies(String courseID, String studentID) throws SQLException {
+		String query = "DELETE FROM Studies WHERE studentID = '"+ studentID +"' AND courseID = '"+ courseID +"'";
+		Statement statement = con.createStatement();
+		statement.executeUpdate(query);
+	}
+		
 	public ResultSet getHasStudied(String courseID, String studentID) throws SQLException {
 		String query = "SELECT * FROM HasStudied WHERE studentID = '" + studentID + "' AND courseID = '" + courseID + "'";
 		PreparedStatement ps = con.prepareStatement(query);
