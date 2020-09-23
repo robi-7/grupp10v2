@@ -16,7 +16,7 @@ public class Main extends Application {
 	
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {		
 		try {
 			Parent root = FXMLLoader.load(this.getClass().getResource("Main.fxml"));
 			Scene scene = new Scene(root);
@@ -31,9 +31,7 @@ public class Main extends Application {
 	public static void main(String[] args) {		
 		Controller controller = new Controller();
 		try {
-			controller.registerHasStudied("A", "C005", "S004");
 			ResultSet student = controller.getStudent("S004");
-			
 			ResultSet course = controller.getCourse("C005");
 			ResultSet studies = controller.getStudies("C001", "S002");
 			ResultSet hasStudied = controller.getHasStudied("C005","S004");
@@ -50,7 +48,7 @@ public class Main extends Application {
 			while(hasStudied.next()) {
 				System.out.println(hasStudied.getString(1) + " - " + hasStudied.getString(2) + " - " + hasStudied.getString(3));
 			}
-			
+//			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -19,6 +19,13 @@ public class DataAccessLayer {
 		con = DriverManager.getConnection(url,loginName,password);
 	}
 	
+	public ResultSet viewStudents() throws SQLException {
+		String query = "SELECT * FROM Student";
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+	
 	public ResultSet getStudent(String studentID) throws SQLException {
 		String query = "SELECT * FROM Student WHERE studentID = '" + studentID + "'";
 		PreparedStatement ps = con.prepareStatement(query);
@@ -41,6 +48,20 @@ public class DataAccessLayer {
 		String queryDeleteStudent = "DELETE FROM Student WHERE studentID = '"+ studentID +"'";
 		Statement statementStudent = con.createStatement();
 		statementStudent.executeUpdate(queryDeleteStudent);
+	}
+	
+	public ResultSet getStudentCourses(String studentID) throws SQLException {
+		String query = "SELECT c.courseID, c.name, c.credits, h.grade FROM Course c, HasStudied h WHERE h.studentID = '" + studentID + "' AND h.courseID = c.courseID UNION SELECT c.courseID, c.name, c.credits, 'Not graded' FROM Course c, Studies s WHERE s.studentID = '" + studentID + "' AND s.courseID = c.courseID";
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+	
+	public ResultSet viewCourses() throws SQLException {
+		String query = "SELECT * FROM Course";
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		return rs;
 	}
 	
 	public ResultSet getCourse(String courseID) throws SQLException {
