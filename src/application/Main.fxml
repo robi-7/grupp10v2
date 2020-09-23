@@ -18,7 +18,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField layoutX="132.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" text="Format: S000" />
+                              <TextField layoutX="180.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" promptText="Format: S000" />
                               <Label layoutX="20.0" layoutY="20.0" text="Student ID:">
                                  <font>
                                     <Font name="PT Sans" size="14.0" />
@@ -44,13 +44,37 @@
                                     <Font name="PT Sans" size="14.0" />
                                  </font>
                               </Label>
+                              <TextField layoutX="180.0" layoutY="135.0" prefHeight="27.0" prefWidth="177.0" promptText="Street" />
+                              <TextField layoutX="180.0" layoutY="95.0" prefHeight="27.0" prefWidth="177.0" promptText="YYMMDD-XXXX" />
+                              <TextField layoutX="180.0" layoutY="55.0" prefHeight="27.0" prefWidth="177.0" promptText="Full name" />
+                              <TextField layoutX="180.0" layoutY="175.0" prefHeight="27.0" prefWidth="177.0" promptText="example@studies.com" />
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
                 <Tab text="Course">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField layoutX="180.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" promptText="Format: S000" />
+                              <Label layoutX="20.0" layoutY="20.0" text="Course ID:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="100.0" text="Credits:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="60.0" text="Name:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="180.0" layoutY="55.0" prefHeight="27.0" prefWidth="177.0" promptText="Full name" />
+                              <TextField layoutX="180.0" layoutY="95.0" prefHeight="27.0" prefWidth="177.0" promptText="example@studies.com" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
               </tabs>
