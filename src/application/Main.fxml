@@ -82,7 +82,7 @@
                               <TextField fx:id="txtStudentSsn" layoutX="180.0" layoutY="95.0" prefHeight="27.0" prefWidth="177.0" promptText="YYMMDD-XXXX" />
                               <TextField fx:id="txtStudentName" layoutX="180.0" layoutY="55.0" prefHeight="27.0" prefWidth="177.0" promptText="Full name" />
                               <TextField fx:id="txtStudentEmail" layoutX="180.0" layoutY="175.0" prefHeight="27.0" prefWidth="177.0" promptText="example@studies.com" />
-                              <Button fx:id="btnStudentRegister" layoutX="18.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Register" />
+                              <Button fx:id="btnStudentRegister" layoutX="18.0" layoutY="220.0" mnemonicParsing="false" onMouseClicked="#registerStudent" prefHeight="27.0" prefWidth="80.0" text="Register" />
                               <Button fx:id="btnStudentDelete" layoutX="277.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete" />
                               <Button fx:id="btnStudentFind" layoutX="148.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Find" />
                               <Label fx:id="lblStudentStatus" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />

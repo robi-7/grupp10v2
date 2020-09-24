@@ -34,11 +34,15 @@ public class DataAccessLayer {
 	}
 	
 	public void registerStudent(String name, String ssn, String address, String email) throws SQLException {
-		String checkStudentIDquery = "SELECT studentID FROM Student ORDER BY studentID DESC";
-		String studentID = "";
-		String query = "INSERT INTO Student VALUES('"+ studentID +"', '" + name + "', '" + ssn + "', '"+ address +"', '"+ email +"')";
-		Statement statement = con.createStatement();
-		statement.executeUpdate(query);
+		String checkStudentIDQuery = "SELECT studentID FROM Student ORDER BY studentID DESC";
+		PreparedStatement ps = con.prepareStatement(checkStudentIDQuery);
+		ResultSet rs = ps.executeQuery();
+		System.out.println(rs.getString(1));
+		
+//		String studentID = "";
+//		String registerStudentQuery = "INSERT INTO Student VALUES('"+ studentID +"', '" + name + "', '" + ssn + "', '"+ address +"', '"+ email +"')";
+//		Statement statement = con.createStatement();
+//		statement.executeUpdate(registerStudentQuery);
 	}
 	public void deleteStudent(String studentID) throws SQLException {
 		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE studentID = '"+ studentID +"'";
