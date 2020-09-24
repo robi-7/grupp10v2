@@ -12,17 +12,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<AnchorPane prefWidth="770.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <Pane layoutX="4.0" prefHeight="735.0" prefWidth="766.0">
+      <Pane layoutX="4.0" prefHeight="667.0" prefWidth="766.0">
          <children>
-            <TabPane layoutX="-4.0" layoutY="-1.0" prefHeight="735.0" prefWidth="770.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="-4.0" layoutY="-1.0" prefHeight="667.0" prefWidth="770.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab fx:id="tabRegister" text="Register">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="lblRegisterStatus" layoutX="15.0" layoutY="512.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
+                              <Label fx:id="lblRegisterStatus" layoutX="20.0" layoutY="512.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
                               <TableView fx:id="tblRegisterCourses" layoutX="20.0" layoutY="44.0" prefHeight="206.0" prefWidth="722.0">
                                  <columns>
                                     <TableColumn prefWidth="117.0" text="CourseID" />
@@ -39,18 +39,18 @@
                                     <TableColumn prefWidth="136.0" text="Email" />
                                  </columns>
                               </TableView>
-                              <Button fx:id="btnRegisterStudies" layoutX="615.0" layoutY="615.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register to course" />
-                              <Button fx:id="btnRegisterHasStudied" layoutX="615.0" layoutY="652.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register grade" />
-                              <ComboBox fx:id="cbxGrade" layoutX="456.0" layoutY="652.0" prefWidth="150.0" promptText="Grade" />
-                              <Label layoutX="15.0" layoutY="14.0" text="Courses" />
-                              <Label layoutX="15.0" layoutY="266.0" text="Students" />
+                              <Button fx:id="btnRegisterStudies" layoutX="620.0" layoutY="550.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register to course" />
+                              <Button fx:id="btnRegisterHasStudied" layoutX="620.0" layoutY="587.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register grade" />
+                              <ComboBox fx:id="cbxGrade" layoutX="456.0" layoutY="587.0" prefWidth="150.0" promptText="Grade" />
+                              <Label layoutX="20.0" layoutY="14.0" text="Courses" />
+                              <Label layoutX="20.0" layoutY="266.0" text="Students" />
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
                 <Tab fx:id="tabStudent" text="Student">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="702.0" prefWidth="676.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="526.0" prefWidth="770.0">
                            <children>
                               <TextField fx:id="txtStudentID" layoutX="180.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" promptText="Format: S000" />
                               <Label layoutX="20.0" layoutY="20.0" text="Student ID:">
@@ -91,8 +91,8 @@
                                   <TableColumn fx:id="tblColStudentStudentID" prefWidth="83.0" text="Student ID" />
                                   <TableColumn fx:id="tblColStudentName" prefWidth="153.0" text="Name" />
                                     <TableColumn fx:id="tblColStudentSsn" prefWidth="96.0" text="Ssn" />
-                                    <TableColumn fx:id="tblColStudentAddress" prefWidth="97.0" text="Address" />
-                                    <TableColumn fx:id="tblColStudentEmail" prefWidth="141.0" text="Email" />
+                                    <TableColumn fx:id="tblColStudentAddress" prefWidth="176.0" text="Address" />
+                                    <TableColumn fx:id="tblColStudentEmail" prefWidth="215.0" text="Email" />
                                 </columns>
                               </TableView>
                               <TableView fx:id="tblStudentCourses" layoutX="387.0" layoutY="13.0" prefHeight="239.0" prefWidth="356.0">
@@ -133,14 +133,14 @@
                               <Button fx:id="btnCourseDelete" layoutX="277.0" layoutY="140.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete" />
                               <Button fx:id="btnCourseFind" layoutX="148.0" layoutY="140.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Find" />
                               <Label fx:id="lblCourseStatus" layoutX="20.0" layoutY="180.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
-                              <TableView fx:id="tblCourses" layoutX="18.0" layoutY="240.0" prefHeight="329.0" prefWidth="712.0">
+                              <TableView fx:id="tblCourses" layoutX="21.0" layoutY="293.0" prefHeight="303.0" prefWidth="724.0">
                                 <columns>
                                   <TableColumn prefWidth="117.0" text="CourseID" />
                                   <TableColumn prefWidth="440.0" text="Name" />
-                                    <TableColumn minWidth="0.0" prefWidth="154.0" text="Credits" />
+                                    <TableColumn minWidth="0.0" prefWidth="166.0" text="Credits" />
                                 </columns>
                               </TableView>
-                              <TableView fx:id="tblCourseStudents" layoutX="394.0" layoutY="8.0" prefHeight="200.0" prefWidth="334.0">
+                              <TableView fx:id="tblCourseStudents" layoutX="387.0" layoutY="13.0" prefHeight="239.0" prefWidth="356.0">
                                  <columns>
                                     <TableColumn prefWidth="76.0" text="StudentID" />
                                     <TableColumn prefWidth="163.0" text="Name" />
