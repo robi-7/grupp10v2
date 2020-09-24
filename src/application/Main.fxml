@@ -18,6 +18,36 @@
          <children>
             <TabPane layoutX="-4.0" layoutY="-1.0" prefHeight="735.0" prefWidth="770.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
+                  <Tab fx:id="tabRegister" text="Register">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="lblRegisterStatus" layoutX="15.0" layoutY="512.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
+                              <TableView fx:id="tblRegisterCourses" layoutX="20.0" layoutY="44.0" prefHeight="206.0" prefWidth="722.0">
+                                 <columns>
+                                    <TableColumn prefWidth="117.0" text="CourseID" />
+                                    <TableColumn prefWidth="110.0" text="Name" />
+                                    <TableColumn prefWidth="136.0" text="Credits" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="tblRegisterStudents" layoutX="20.0" layoutY="295.0" prefHeight="206.0" prefWidth="722.0">
+                                 <columns>
+                                    <TableColumn prefWidth="117.0" text="StudentID" />
+                                    <TableColumn prefWidth="110.0" text="Name" />
+                                    <TableColumn prefWidth="136.0" text="SSN" />
+                                    <TableColumn prefWidth="136.0" text="Address" />
+                                    <TableColumn prefWidth="136.0" text="Email" />
+                                 </columns>
+                              </TableView>
+                              <Button fx:id="btnRegisterStudies" layoutX="615.0" layoutY="615.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register to course" />
+                              <Button fx:id="btnRegisterHasStudied" layoutX="615.0" layoutY="652.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register grade" />
+                              <ComboBox fx:id="cbxGrade" layoutX="456.0" layoutY="652.0" prefWidth="150.0" promptText="Grade" />
+                              <Label layoutX="15.0" layoutY="14.0" text="Courses" />
+                              <Label layoutX="15.0" layoutY="266.0" text="Students" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
                 <Tab fx:id="tabStudent" text="Student">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="702.0" prefWidth="676.0">
@@ -121,36 +151,6 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabRegister" text="Register">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label fx:id="lblRegisterStatus" layoutX="15.0" layoutY="512.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
-                              <TableView fx:id="tblRegisterCourses" layoutX="24.0" layoutY="44.0" prefHeight="206.0" prefWidth="722.0">
-                                 <columns>
-                                    <TableColumn prefWidth="117.0" text="CourseID" />
-                                    <TableColumn prefWidth="110.0" text="Name" />
-                                    <TableColumn prefWidth="136.0" text="Credits" />
-                                 </columns>
-                              </TableView>
-                              <TableView fx:id="tblRegisterStudents" layoutX="15.0" layoutY="295.0" prefHeight="206.0" prefWidth="722.0">
-                                 <columns>
-                                    <TableColumn prefWidth="117.0" text="StudentID" />
-                                    <TableColumn prefWidth="110.0" text="Name" />
-                                    <TableColumn prefWidth="136.0" text="SSN" />
-                                    <TableColumn prefWidth="136.0" text="Address" />
-                                    <TableColumn prefWidth="136.0" text="Email" />
-                                 </columns>
-                              </TableView>
-                              <Button fx:id="btnRegisterStudies" layoutX="615.0" layoutY="615.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register to course" />
-                              <Button fx:id="btnRegisterHasStudied" layoutX="615.0" layoutY="652.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Register grade" />
-                              <ComboBox fx:id="cbxGrade" layoutX="456.0" layoutY="652.0" prefWidth="150.0" promptText="Grade" />
-                              <Label layoutX="15.0" layoutY="14.0" text="Courses" />
-                              <Label layoutX="15.0" layoutY="266.0" text="Students" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
               </tabs>
             </TabPane>
          </children>
