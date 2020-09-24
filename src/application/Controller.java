@@ -191,6 +191,8 @@ public class Controller implements Initializable {
 		String email = txtStudentEmail.getText();
 		
 		database.registerStudent(name,  ssn,  address, email);
+		this.viewStudents();
+		tblStudentCourses.setItems(null);
 	}
 	
 	public void deleteStudent(String studentID) throws SQLException {

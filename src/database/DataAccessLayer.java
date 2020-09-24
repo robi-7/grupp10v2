@@ -37,12 +37,22 @@ public class DataAccessLayer {
 		String checkStudentIDQuery = "SELECT studentID FROM Student ORDER BY studentID DESC";
 		PreparedStatement ps = con.prepareStatement(checkStudentIDQuery);
 		ResultSet rs = ps.executeQuery();
-		System.out.println(rs.getString(1));
+		rs.next();
+		String highestStudentID = rs.getString(1);
+		int indexStudentID = Integer.parseInt(highestStudentID.substring(1)) + 1;
+	    String studentID;
+		if (indexStudentID < 10) {
+			studentID = "S00" + indexStudentID;
+		 } else if(indexStudentID < 100) {
+			 studentID = "S0" + indexStudentID;
+		 } else  {
+			 studentID = "S" + indexStudentID; 
+		 }
 		
-//		String studentID = "";
-//		String registerStudentQuery = "INSERT INTO Student VALUES('"+ studentID +"', '" + name + "', '" + ssn + "', '"+ address +"', '"+ email +"')";
-//		Statement statement = con.createStatement();
-//		statement.executeUpdate(registerStudentQuery);
+		
+		String registerStudentQuery = "INSERT INTO Student VALUES('"+ studentID +"', '" + name + "', '" + ssn + "', '"+ address +"', '"+ email +"')";
+		Statement statement = con.createStatement();
+		statement.executeUpdate(registerStudentQuery);
 	}
 	public void deleteStudent(String studentID) throws SQLException {
 		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE studentID = '"+ studentID +"'";
