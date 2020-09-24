@@ -78,14 +78,6 @@ public class Controller implements Initializable {
     private TableColumn<Student, String> tblColStudentAddress;
     @FXML
     private TableColumn<Student, String> tblColStudentEmail;
-    @FXML
-    void getStudentCourses(MouseEvent event) {
-    	try {
-			tblStudentSelected();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-    }
     //TABLE: COURSES
     @FXML
     private TableView<StudentCourses> tblStudentCourses;
@@ -191,15 +183,20 @@ public class Controller implements Initializable {
 	public ResultSet getStudent(String studentID) throws SQLException {
 		return database.getStudent(studentID);
 	}
-	
-	public void registerStudent(String studentID, String name, String ssn, String address, String email) throws SQLException {
-		database.registerStudent(studentID,  name,  ssn,  address, email);
+	@FXML
+	public void registerStudent() throws SQLException {
+		String name = txtStudentName.getText();
+		String ssn = txtStudentSsn.getText();
+		String address = txtStudentAddress.getText();
+		String email = txtStudentEmail.getText();
+		
+		database.registerStudent(name,  ssn,  address, email);
 	}
 	
 	public void deleteStudent(String studentID) throws SQLException {
 		database.deleteStudent(studentID);
 	}
-	
+	@FXML
 	public void tblStudentSelected() throws SQLException {
 		if(!tblStudents.getSelectionModel().isEmpty()) {
 			int index = tblStudents.getSelectionModel().getSelectedIndex();

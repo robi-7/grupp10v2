@@ -56,7 +56,7 @@
                               <Button fx:id="btnStudentDelete" layoutX="277.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete" />
                               <Button fx:id="btnStudentFind" layoutX="148.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Find" />
                               <Label fx:id="lblStudentStatus" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
-                              <TableView fx:id="tblStudents" layoutX="21.0" layoutY="293.0" onMouseClicked="#getStudentCourses" prefHeight="303.0" prefWidth="724.0">
+                              <TableView fx:id="tblStudents" layoutX="21.0" layoutY="293.0" onMouseClicked="#tblStudentSelected" prefHeight="303.0" prefWidth="724.0">
                                 <columns>
                                   <TableColumn fx:id="tblColStudentStudentID" prefWidth="83.0" text="Student ID" />
                                   <TableColumn fx:id="tblColStudentName" prefWidth="153.0" text="Name" />

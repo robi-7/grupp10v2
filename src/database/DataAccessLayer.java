@@ -33,7 +33,9 @@ public class DataAccessLayer {
 		return rs;
 	}
 	
-	public void registerStudent(String studentID, String name, String ssn, String address, String email) throws SQLException {
+	public void registerStudent(String name, String ssn, String address, String email) throws SQLException {
+		String checkStudentIDquery = "SELECT studentID FROM Student ORDER BY studentID DESC";
+		String studentID = "";
 		String query = "INSERT INTO Student VALUES('"+ studentID +"', '" + name + "', '" + ssn + "', '"+ address +"', '"+ email +"')";
 		Statement statement = con.createStatement();
 		statement.executeUpdate(query);
