@@ -185,14 +185,29 @@ public class Controller implements Initializable {
 	}
 	@FXML
 	public void registerStudent() throws SQLException {
+		lblStudentStatus.setText("");
+	try {
 		String name = txtStudentName.getText();
 		String ssn = txtStudentSsn.getText();
 		String address = txtStudentAddress.getText();
 		String email = txtStudentEmail.getText();
 		
-		database.registerStudent(name,  ssn,  address, email);
-		this.viewStudents();
-		tblStudentCourses.setItems(null);
+		if (ssn.length() == 10) {
+			
+			String newStudentID = database.registerStudent(name,  ssn,  address, email);
+			this.viewStudents();
+			tblStudentCourses.setItems(null);
+			tblStudents.getSelectionModel().selectLast();
+			int lastIndex = tblStudents.getSelectionModel().getSelectedIndex();
+			tblStudents.scrollTo(lastIndex); 
+			txtStudentID.setText(newStudentID);
+		} else { 
+			lblStudentStatus.setText("Social security number must consist of 10 numbers");
+		}
+	}
+	catch (SQLException e) {
+		lblStudentStatus.setText("A student with that social security number already exists");
+	}
 	}
 	
 	public void deleteStudent(String studentID) throws SQLException {
