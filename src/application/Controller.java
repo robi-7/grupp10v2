@@ -67,6 +67,8 @@ public class Controller implements Initializable {
 	private Button btnStudentFind;
 	@FXML
 	private Label lblStudentStatus;
+	@FXML
+	private Label lblStudentSuccess;
 	//TABLE: STUDENTS
 	@FXML
 	private TableView<Student> tblStudents;
@@ -109,6 +111,8 @@ public class Controller implements Initializable {
 	private Button btnCourseFind;
 	@FXML
 	private Label lblCourseStatus;
+	@FXML
+	private Label lblCourseSuccess;
 	//TABLE: COURSES
 	@FXML
 	private TableView<Course> tblCourses;
@@ -133,6 +137,8 @@ public class Controller implements Initializable {
 	private Tab tabRegister;
 	@FXML
 	private Label lblRegisterStatus;
+	@FXML
+	private Label lblRegisterSuccess;
 	@FXML
 	private TableView<?> tblRegisterCourses;
 	@FXML
@@ -213,6 +219,7 @@ public class Controller implements Initializable {
 	@FXML
 	public void findStudent()  {
 		lblStudentStatus.setText("");
+		lblStudentSuccess.setText("");
 		try {
 			String studentID = txtStudentID.getText().toUpperCase();
 			ResultSet rs = database.getStudent(studentID);
@@ -228,6 +235,7 @@ public class Controller implements Initializable {
 			} 
 
 			tblStudentSelected();
+			lblStudentSuccess.setText("Successfully found student " + studentID);
 		} catch(SQLException e) {
 			lblStudentStatus.setText("Student ID does not exist");
 			txtStudentName.setText("");		
@@ -242,31 +250,40 @@ public class Controller implements Initializable {
 	@FXML
 	public void registerStudent()  {
 		lblStudentStatus.setText("");
+		lblStudentSuccess.setText("");
+		
 		try {
 			String name = txtStudentName.getText();
 			String ssn = txtStudentSsn.getText().replaceAll("-", ""); //DENNA TAR BORT BINDESTRECKET
 			String address = txtStudentAddress.getText();
 			String email = txtStudentEmail.getText();   
 
-			if (ssn.length() == 10) {
-				Double.parseDouble(ssn); //DENNA TESTAR SÅ SSN BESTÅR AV SIFFROR, KOLLA NUMBERFORMATEXCEPTION CATCHEN LÄNGRE NER
-				String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-				Pattern pattern = Pattern.compile(regex);
-				if(pattern.matcher(email).matches()){
-					String newStudentID = database.registerStudent(name,  ssn,  address, email);
-					this.viewStudents();
-					tblStudentCourses.setItems(null);
-					tblStudents.getSelectionModel().selectLast();
-					int lastIndex = tblStudents.getSelectionModel().getSelectedIndex();
-					tblStudents.scrollTo(lastIndex); 
-					txtStudentID.setText(newStudentID);
-				} else {
-					lblStudentStatus.setText("Please enter valid email");
+			if (!name.isEmpty() && !ssn.isEmpty() && !address.isEmpty() && !email.isEmpty()) {
+				if (ssn.length() == 10) {
+					Double.parseDouble(ssn); //DENNA TESTAR SÅ SSN BESTÅR AV SIFFROR, KOLLA NUMBERFORMATEXCEPTION CATCHEN LÄNGRE NER
+					String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+					Pattern pattern = Pattern.compile(regex);
+					if(pattern.matcher(email).matches()){
+						String newStudentID = database.registerStudent(name,  ssn,  address, email);
+						this.viewStudents();
+						tblStudentCourses.setItems(null);
+						tblStudents.getSelectionModel().selectLast();
+						int lastIndex = tblStudents.getSelectionModel().getSelectedIndex();
+						tblStudents.scrollTo(lastIndex); 
+						txtStudentID.setText(newStudentID);
+						lblStudentSuccess.setText("Successfully registered student " + newStudentID);
+					} else {
+						lblStudentStatus.setText("Please enter valid email");
+					}
+					
+				} else { 
+					lblStudentStatus.setText("Social security number must consist of 10 numbers");
 				}
-
-			} else { 
-				lblStudentStatus.setText("Social security number must consist of 10 numbers");
+				
+			} else {
+				lblStudentStatus.setText("Please enter values, only student ID can remain empty");
 			}
+			
 		}
 		catch (SQLException e) {
 			lblStudentStatus.setText("A student with that social security number already exists");
@@ -279,6 +296,7 @@ public class Controller implements Initializable {
 	@FXML
 	public void deleteStudent() throws SQLException {
 		lblStudentStatus.setText("");
+		lblStudentSuccess.setText("");
 		try {
 			if (!tblStudents.getSelectionModel().isEmpty()) {
 				String studentID = tblStudents.getSelectionModel().getSelectedItems().get(0).getStudentID(); 
@@ -291,6 +309,7 @@ public class Controller implements Initializable {
 				txtStudentSsn.setText("");
 				txtStudentAddress.setText("");
 				txtStudentEmail.setText("");
+				lblStudentSuccess.setText("Successfully deleted student " + studentID);
 			} else {
 				lblStudentStatus.setText("Please select a student in the list below first");
 			}
@@ -301,6 +320,8 @@ public class Controller implements Initializable {
 
 	@FXML
 	public void tblStudentSelected() throws SQLException {
+		lblStudentStatus.setText("");
+		lblStudentSuccess.setText("");
 		if(!tblStudents.getSelectionModel().isEmpty()) {
 			int index = tblStudents.getSelectionModel().getSelectedIndex();
 			String studentID = tblColStudentStudentID.getCellData(index);
@@ -324,11 +345,14 @@ public class Controller implements Initializable {
 			txtStudentEmail.setText(student.getString(5));
 		}
 	}
-
+	@FXML
 	public void findCourse() {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
 		try {
 			String courseID = txtCourseID.getText().toUpperCase();
 			ResultSet rs = database.getCourse(courseID);
+			rs.next();
 			txtCourseName.setText(rs.getString(2));
 			txtCourseCredits.setText(Integer.toString(rs.getInt(3)));
 			for (Course course : tblCourses.getItems()) {
@@ -336,8 +360,8 @@ public class Controller implements Initializable {
 					tblCourses.getSelectionModel().select(course);
 				}
 			}
-
 			tblCourseSelected();
+			lblCourseSuccess.setText("Successfully found course " + courseID);
 		} catch (SQLException e) {
 			lblCourseStatus.setText("A course with this ID does not exist");
 			txtCourseName.setText("");
@@ -346,16 +370,17 @@ public class Controller implements Initializable {
 			tblCourses.getSelectionModel().clearSelection();
 		}
 	}
-	
+
 	@FXML
 	public void tblCourseSelected() {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
 		try {
 			if(!tblCourses.getSelectionModel().isEmpty()) {
 				int index = tblCourses.getSelectionModel().getSelectedIndex();
 				String courseID = tblColCourseID.getCellData(index);
 
-				ResultSet student;
-				student = database.getCourseStudents(courseID);
+				ResultSet student = database.getCourseStudents(courseID);
 				ObservableList<CourseStudents> data = FXCollections.observableArrayList();
 				while(student.next()) {
 					String studentID = student.getString(1);
@@ -393,21 +418,56 @@ public class Controller implements Initializable {
 	}
 
 	@FXML
-	public void registerCourse() throws SQLException {
-		String name = txtCourseName.getText();
-		int credits = Integer.parseInt(txtCourseCredits.getText());
-
-		String newCourseID = database.registerCourse(name, credits);
-		this.viewCourses();
-		tblCourseStudents.setItems(null);
-		tblCourses.getSelectionModel().selectLast();
-		int lastIndex = tblCourses.getSelectionModel().getSelectedIndex();
-		tblCourses.scrollTo(lastIndex);
-		txtCourseID.setText(newCourseID);
+	public void registerCourse() {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
+		try {
+			String name = txtCourseName.getText();
+			int credits; 
+			if (!name.isEmpty()) {
+				credits = Integer.parseInt(txtCourseCredits.getText());
+				if (credits < 46) {
+					String newCourseID = database.registerCourse(name, credits);
+					this.viewCourses();
+					tblCourseStudents.setItems(null);
+					tblCourses.getSelectionModel().selectLast();
+					int lastIndex = tblCourses.getSelectionModel().getSelectedIndex();
+					tblCourses.scrollTo(lastIndex);
+					txtCourseID.setText(newCourseID);
+					lblCourseSuccess.setText("Successfully registered course " + newCourseID);
+				} else {
+					lblCourseStatus.setText("Please enter valid value in credits, maximum allowed credits per course is 45");
+				} 				
+			} else {
+				lblCourseStatus.setText("Please enter a name for the course");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			lblCourseStatus.setText("Please enter valid value in credits, it can only consist of numbers");
+		}
 	}
-
-	public void deleteCourse(String courseID) throws SQLException {
-		database.deleteCourse(courseID);
+	@FXML
+	public void deleteCourse() {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
+		try {
+			if (!tblCourses.getSelectionModel().isEmpty()) {
+				String courseID = tblCourses.getSelectionModel().getSelectedItems().get(0).getCourseID(); 
+				database.deleteCourse(courseID);
+				tblCourses.setItems(null);
+				tblCourseStudents.setItems(null);
+				viewCourses();
+				txtCourseID.setText("");	
+				txtCourseName.setText("");		
+				txtCourseCredits.setText("");
+				lblCourseSuccess.setText("Successfully deleted course " + courseID);
+			} else {
+				lblCourseStatus.setText("Please select a course in the list below first");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ResultSet getStudies(String courseID, String studentID) throws SQLException {
