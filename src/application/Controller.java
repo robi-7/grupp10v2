@@ -214,15 +214,15 @@ public class Controller implements Initializable {
 		lblStudentStatus.setText("");
 		try {
 			String name = txtStudentName.getText();
-			String ssn = txtStudentSsn.getText();
+			String ssn = txtStudentSsn.getText().replaceAll("-", ""); //DENNA TAR BORT BINDESTRECKET
 			String address = txtStudentAddress.getText();
 			String email = txtStudentEmail.getText();   
 
 			if (ssn.length() == 10) {
-				String regex = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+(?:\\\\.[a-zA-Z0-9_!#$%&’*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)*$";
+				Double.parseDouble(ssn); //DENNA TESTAR SÅ SSN BESTÅR AV SIFFROR, KOLLA NUMBERFORMATEXCEPTION CATCHEN LÄNGRE NER
+				String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 				Pattern pattern = Pattern.compile(regex);
 				if(pattern.matcher(email).matches()){
-
 					String newStudentID = database.registerStudent(name,  ssn,  address, email);
 					this.viewStudents();
 					tblStudentCourses.setItems(null);
@@ -240,6 +240,10 @@ public class Controller implements Initializable {
 		}
 		catch (SQLException e) {
 			lblStudentStatus.setText("A student with that social security number already exists");
+		}
+		catch (NumberFormatException e) {
+			e.printStackTrace();
+			lblStudentStatus.setText("Social security number must consist of only numbers"); //DETTA HÄNDER NÄR DET BLIR ERROR I SSN PGA BOKSTÄVER
 		}
 	}
     @FXML
