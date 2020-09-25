@@ -36,6 +36,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import tableModels.Course;
+import tableModels.CourseStudents;
 import tableModels.Student;
 import tableModels.StudentCourses;
 import database.DataAccessLayer;
@@ -118,7 +119,14 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<Course, String> tblColCourseCredits;
 	@FXML
-	private TableView<?> tblCourseStudents;
+	private TableView<CourseStudents> tblCourseStudents;
+	@FXML
+	private TableColumn<CourseStudents, String> tvlColCourseStudentID;
+	@FXML
+	private TableColumn<CourseStudents, String> tblColCourseStudentName;
+	@FXML
+	private TableColumn<CourseStudents, String> tblColCourseStudentGrade;
+
 
 	//TAB: REGISTER
 	@FXML    
@@ -156,6 +164,11 @@ public class Controller implements Initializable {
 		tblColCourseID.setCellValueFactory(new PropertyValueFactory<Course, String>("courseID"));
 		tblColCourseName.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
 		tblColCourseCredits.setCellValueFactory(new PropertyValueFactory<Course, String>("credits"));
+
+		//Tab: Course, Table: Students
+		tvlColCourseStudentID.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("studentID"));
+		tblColCourseStudentName.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("name"));
+		tblColCourseStudentGrade.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("grade"));
 
 		try {
 			this.viewStudents();
@@ -323,7 +336,7 @@ public class Controller implements Initializable {
 					tblCourses.getSelectionModel().select(course);
 				}
 			}
-			
+
 			tblCourseSelected();
 		} catch (SQLException e) {
 			lblCourseStatus.setText("A course with this ID does not exist");
@@ -334,8 +347,33 @@ public class Controller implements Initializable {
 		}
 	}
 	
+	@FXML
 	public void tblCourseSelected() {
-		
+		try {
+			if(!tblCourses.getSelectionModel().isEmpty()) {
+				int index = tblCourses.getSelectionModel().getSelectedIndex();
+				String courseID = tblColCourseID.getCellData(index);
+
+				ResultSet student;
+				student = database.getCourseStudents(courseID);
+				ObservableList<CourseStudents> data = FXCollections.observableArrayList();
+				while(student.next()) {
+					String studentID = student.getString(1);
+					String name = student.getString(2);
+					String grade = student.getString(3);
+					data.add(new CourseStudents(studentID,name,grade));
+				}
+				tblCourseStudents.setItems(data);
+				ResultSet course = database.getCourse(courseID);
+				course.next();
+				txtCourseID.setText(course.getString(1));
+				txtCourseName.setText(course.getString(2));
+				txtCourseCredits.setText(course.getString(3));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// --- Printar ut credits i courseID, pga int:en?
@@ -367,7 +405,7 @@ public class Controller implements Initializable {
 		tblCourses.scrollTo(lastIndex);
 		txtCourseID.setText(newCourseID);
 	}
-	
+
 	public void deleteCourse(String courseID) throws SQLException {
 		database.deleteCourse(courseID);
 	}

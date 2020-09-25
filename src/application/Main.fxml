@@ -140,11 +140,11 @@
                                     <TableColumn fx:id="tblColCourseCredits" minWidth="0.0" prefWidth="166.0" text="Credits" />
                                 </columns>
                               </TableView>
-                              <TableView fx:id="tblCourseStudents" layoutX="387.0" layoutY="13.0" prefHeight="239.0" prefWidth="356.0">
+                              <TableView fx:id="tblCourseStudents" layoutX="387.0" layoutY="13.0" onMouseClicked="#tblCourseSelected" prefHeight="239.0" prefWidth="356.0">
                                  <columns>
-                                    <TableColumn prefWidth="76.0" text="StudentID" />
-                                    <TableColumn prefWidth="163.0" text="Name" />
-                                    <TableColumn prefWidth="92.0" text="SSN" />
+                                    <TableColumn fx:id="tvlColCourseStudentID" prefWidth="77.0" text="StudentID" />
+                                    <TableColumn fx:id="tblColCourseStudentName" prefWidth="116.0" text="Name" />
+                                    <TableColumn fx:id="tblColCourseStudentGrade" prefWidth="162.0" text="Grade" />
                                  </columns>
                               </TableView>
                            </children>

@@ -88,8 +88,8 @@ public class DataAccessLayer {
 		ResultSet rs = ps.executeQuery();
 		return rs;
 	}
-	public ResultSet getCourseStudent(String courseID) throws SQLException {
-		String query = "SELECT s.studentID, s.name, s.ssn, s.address, s.email FROM Student s, Studies st WHERE st.studentID = '" + studentID + "' AND h.courseID = c.courseID UNION SELECT c.courseID, c.name, c.credits, 'Not graded' FROM Course c, Studies s WHERE s.studentID = '" + studentID + "' AND s.courseID = c.courseID";
+	public ResultSet getCourseStudents(String courseID) throws SQLException {
+		String query = "SELECT s.studentID, s.name, hs.grade FROM Student s, HasStudied hs WHERE hs.courseID = '" + courseID + "' AND hs.studentID = s.studentID UNION  SELECT s.studentID, s.name, 'Still participating' FROM Student s, Studies st WHERE st.courseID = '" + courseID + "' AND st.studentID = s.studentID ORDER BY hs.grade DESC";
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		return rs;
