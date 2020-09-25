@@ -129,15 +129,15 @@
                               </Label>
                               <TextField fx:id="txtCourseName" layoutX="180.0" layoutY="55.0" prefHeight="27.0" prefWidth="177.0" promptText="Full name" />
                               <TextField fx:id="txtCourseCredits" layoutX="180.0" layoutY="95.0" prefHeight="27.0" prefWidth="177.0" promptText="example@studies.com" />
-                              <Button fx:id="btnCourseRegister" layoutX="18.0" layoutY="140.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Register" />
+                              <Button layoutX="18.0" layoutY="140.0" mnemonicParsing="false" onAction="#registerCourse" prefHeight="27.0" prefWidth="80.0" text="Register" />
                               <Button fx:id="btnCourseDelete" layoutX="277.0" layoutY="140.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Delete" />
                               <Button fx:id="btnCourseFind" layoutX="148.0" layoutY="140.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Find" />
-                              <Label fx:id="lblCourseStatus" layoutX="20.0" layoutY="180.0" prefHeight="17.0" prefWidth="338.0" text="Status:" />
+                              <Label fx:id="lblCourseStatus" layoutX="20.0" layoutY="180.0" prefHeight="17.0" prefWidth="338.0" />
                               <TableView fx:id="tblCourses" layoutX="21.0" layoutY="293.0" prefHeight="303.0" prefWidth="724.0">
                                 <columns>
-                                  <TableColumn prefWidth="117.0" text="CourseID" />
-                                  <TableColumn prefWidth="440.0" text="Name" />
-                                    <TableColumn minWidth="0.0" prefWidth="166.0" text="Credits" />
+                                  <TableColumn fx:id="tblColCourseID" prefWidth="117.0" text="CourseID" />
+                                  <TableColumn fx:id="tblColCourseName" prefWidth="440.0" text="Name" />
+                                    <TableColumn fx:id="tblColCourseCredits" minWidth="0.0" prefWidth="166.0" text="Credits" />
                                 </columns>
                               </TableView>
                               <TableView fx:id="tblCourseStudents" layoutX="387.0" layoutY="13.0" prefHeight="239.0" prefWidth="356.0">

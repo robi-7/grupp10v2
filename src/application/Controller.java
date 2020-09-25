@@ -108,8 +108,15 @@ public class Controller implements Initializable {
 	private Button btnCourseFind;
 	@FXML
 	private Label lblCourseStatus;
+	//TABLE: COURSES
 	@FXML
-	private TableView<?> tblCourses;
+	private TableView<Course> tblCourses;
+	@FXML
+	private TableColumn<Course, String> tblColCourseID;
+	@FXML
+	private TableColumn<Course, String> tblColCourseName;
+	@FXML
+	private TableColumn<Course, String> tblColCourseCredits;
 	@FXML
 	private TableView<?> tblCourseStudents;
 
@@ -145,8 +152,18 @@ public class Controller implements Initializable {
 		tblColStudentCourseCredits.setCellValueFactory(new PropertyValueFactory<StudentCourses,String>("credits"));
 		tblColStudentCourseGrade.setCellValueFactory(new PropertyValueFactory<StudentCourses,String>("grade"));
 
+		//Tab: Course, Table: Courses
+		tblColCourseID.setCellValueFactory(new PropertyValueFactory<Course, String>("courseID"));
+		tblColCourseName.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
+		tblColCourseCredits.setCellValueFactory(new PropertyValueFactory<Course, String>("credits"));
+
 		try {
 			this.viewStudents();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.viewCourses();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -180,10 +197,10 @@ public class Controller implements Initializable {
 		}
 		tblStudents.setItems(data);
 	}
-    @FXML
+	@FXML
 	public void findStudent()  {
-    	lblStudentStatus.setText("");
-    	try {
+		lblStudentStatus.setText("");
+		try {
 			String studentID = txtStudentID.getText().toUpperCase();
 			ResultSet rs = database.getStudent(studentID);
 			rs.next();
@@ -196,7 +213,7 @@ public class Controller implements Initializable {
 					tblStudents.getSelectionModel().select(student);
 				}
 			} 
-			
+
 			tblStudentSelected();
 		} catch(SQLException e) {
 			lblStudentStatus.setText("Student ID does not exist");
@@ -207,7 +224,7 @@ public class Controller implements Initializable {
 			tblStudentCourses.setItems(null);
 			tblStudents.getSelectionModel().clearSelection();
 		} 
-		
+
 	} 
 	@FXML
 	public void registerStudent()  {
@@ -246,10 +263,10 @@ public class Controller implements Initializable {
 			lblStudentStatus.setText("Social security number must consist of only numbers"); //DETTA HÄNDER NÄR DET BLIR ERROR I SSN PGA BOKSTÄVER
 		}
 	}
-    @FXML
+	@FXML
 	public void deleteStudent() throws SQLException {
-    	lblStudentStatus.setText("");
-    	try {
+		lblStudentStatus.setText("");
+		try {
 			if (!tblStudents.getSelectionModel().isEmpty()) {
 				String studentID = tblStudents.getSelectionModel().getSelectedItems().get(0).getStudentID(); 
 				database.deleteStudent(studentID);
@@ -267,7 +284,7 @@ public class Controller implements Initializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		}
+	}
 
 	@FXML
 	public void tblStudentSelected() throws SQLException {
@@ -295,12 +312,62 @@ public class Controller implements Initializable {
 		}
 	}
 
-	public ResultSet getCourse(String courseID) throws SQLException {
-		return database.getCourse(courseID);
+	public void findCourse() {
+		try {
+			String courseID = txtCourseID.getText().toUpperCase();
+			ResultSet rs = database.getCourse(courseID);
+			txtCourseName.setText(rs.getString(2));
+			txtCourseCredits.setText(Integer.toString(rs.getInt(3)));
+			for (Course course : tblCourses.getItems()) {
+				if (courseID.contentEquals(course.getCourseID())) {
+					tblCourses.getSelectionModel().select(course);
+				}
+			}
+			
+			tblCourseSelected();
+		} catch (SQLException e) {
+			lblCourseStatus.setText("A course with this ID does not exist");
+			txtCourseName.setText("");
+			txtCourseCredits.setText("");
+			tblCourseStudents.setItems(null);
+			tblCourses.getSelectionModel().clearSelection();
+		}
 	}
-	public void registerCourse(String courseID, String name, int credits) throws SQLException {
-		database.registerCourse(courseID,  name,  credits);
+	
+	public void tblCourseSelected() {
+		
 	}
+
+	// --- Printar ut credits i courseID, pga int:en?
+	@FXML
+	public void viewCourses() throws SQLException {
+		ResultSet rs = database.viewCourses();
+
+		ObservableList<Course> data = FXCollections.observableArrayList();
+		while(rs.next()) {
+			String courseID = rs.getString(1);
+			String name = rs.getString(2);
+			int credits = rs.getInt(3);
+			data.add(new Course(courseID,name,credits));
+
+		}
+		tblCourses.setItems(data);
+	}
+
+	@FXML
+	public void registerCourse() throws SQLException {
+		String name = txtCourseName.getText();
+		int credits = Integer.parseInt(txtCourseCredits.getText());
+
+		String newCourseID = database.registerCourse(name, credits);
+		this.viewCourses();
+		tblCourseStudents.setItems(null);
+		tblCourses.getSelectionModel().selectLast();
+		int lastIndex = tblCourses.getSelectionModel().getSelectedIndex();
+		tblCourses.scrollTo(lastIndex);
+		txtCourseID.setText(newCourseID);
+	}
+	
 	public void deleteCourse(String courseID) throws SQLException {
 		database.deleteCourse(courseID);
 	}

@@ -89,10 +89,28 @@ public class DataAccessLayer {
 		return rs;
 	}
 	
-	public void registerCourse(String courseID, String name, int credits) throws SQLException {
-		String query = "INSERT INTO Course VALUES('"+ courseID +"', '" + name + "', " + credits + ")";
+	//Går inte att namnge String till courseID
+	public String registerCourse(String name, int credits) throws SQLException {
+		String checkCourseIDQuery = "SELECT courseID FROM Course ORDER BY courseID DESC";
+		PreparedStatement ps = con.prepareStatement(checkCourseIDQuery);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		String highestCourseID = rs.getString(1);
+		int indexCourseID = Integer.parseInt(highestCourseID.substring(1)) + 1;
+		String courseID;
+		if (indexCourseID < 10) {
+			courseID = "C00" + indexCourseID;
+		} else if (indexCourseID < 100) {
+			courseID = "C0" + indexCourseID;
+		} else {
+			courseID = "C" + indexCourseID;
+		}
+		
+		String registerCourseQuery = "INSERT INTO Course VALUES('"+ courseID +"', '" + name + "', " + credits + ")";
 		Statement statement = con.createStatement();
-		statement.executeUpdate(query);
+		statement.executeUpdate(registerCourseQuery);
+		
+		return courseID;
 	}
 	public void deleteCourse(String courseID) throws SQLException {
 		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE courseID = '"+ courseID +"'";
