@@ -153,6 +153,7 @@ public class Controller implements Initializable {
 	//INITIALIZATOR
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		//Tab: Student, Table: Student
 		tblColStudentStudentID.setCellValueFactory(new PropertyValueFactory<Student,String>("studentID"));
 		tblColStudentName.setCellValueFactory(new PropertyValueFactory<Student,String>("name"));
@@ -177,6 +178,7 @@ public class Controller implements Initializable {
 		tblColCourseStudentGrade.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("grade"));
 
 		try {
+			database = new DataAccessLayer();
 			this.viewStudents();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -184,18 +186,6 @@ public class Controller implements Initializable {
 		try {
 			this.viewCourses();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	//CONSTRUCTOR
-	public Controller() {
-		try 
-		{
-			database = new DataAccessLayer();
-		} 
-		catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

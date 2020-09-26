@@ -57,15 +57,9 @@ public class DataAccessLayer {
 		return studentID; 
 	}
 	public void deleteStudent(String studentID) throws SQLException {
-		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE studentID = '"+ studentID +"'";
+		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE studentID = '"+ studentID +"' " + "DELETE FROM Studies WHERE studentID = '"+ studentID +"' " + "DELETE FROM Student WHERE studentID = '"+ studentID +"'";
 		Statement statementHasStudied = con.createStatement();
 		statementHasStudied.executeUpdate(queryDeleteHasStudied);
-		String queryDeleteStudies = "DELETE FROM Studies WHERE studentID = '"+ studentID +"'";
-		Statement statementStudies = con.createStatement();
-		statementStudies.executeUpdate(queryDeleteStudies);
-		String queryDeleteStudent = "DELETE FROM Student WHERE studentID = '"+ studentID +"'";
-		Statement statementStudent = con.createStatement();
-		statementStudent.executeUpdate(queryDeleteStudent);
 	}
 	
 	public ResultSet getStudentCourses(String studentID) throws SQLException {
@@ -119,15 +113,9 @@ public class DataAccessLayer {
 		return courseID;
 	}
 	public void deleteCourse(String courseID) throws SQLException {
-		String queryDeleteHasStudied = "DELETE FROM HasStudied WHERE courseID = '"+ courseID +"'";
-		Statement statementHasStudied = con.createStatement();
-		statementHasStudied.executeUpdate(queryDeleteHasStudied);
-		String queryDeleteStudies = "DELETE FROM Studies WHERE courseID = '"+ courseID +"'";
-		Statement statementStudies = con.createStatement();
-		statementStudies.executeUpdate(queryDeleteStudies);
-		String queryDeleteCourse = "DELETE FROM Course WHERE courseID = '"+ courseID +"'";
-		Statement statementCourse = con.createStatement();
-		statementCourse.executeUpdate(queryDeleteCourse);
+		String query = "DELETE FROM HasStudied WHERE courseID = '"+ courseID +"' " + "DELETE FROM Studies WHERE courseID = '"+ courseID +"' " + "DELETE FROM Course WHERE courseID = '"+ courseID +"'";
+		Statement statement = con.createStatement();
+		statement.executeUpdate(query);
 	}
 	
 	public ResultSet getStudies(String courseID, String studentID) throws SQLException {
