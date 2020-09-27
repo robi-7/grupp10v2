@@ -103,6 +103,8 @@ public class Controller implements Initializable {
 	private TextField txtCourseName;
 	@FXML
 	private TextField txtCourseCredits;
+    @FXML
+    private Label lblShareGradesA;
 	@FXML
 	private Button btnCourseRegister;
 	@FXML
@@ -113,6 +115,16 @@ public class Controller implements Initializable {
 	private Label lblCourseStatus;
 	@FXML
 	private Label lblCourseSuccess;
+	@FXML
+	private Button btnCourseDeleteStudent;
+	@FXML
+	private Button btnRegisterStudies;
+	@FXML
+	private Button btnRegisterHasStudied;
+    @FXML
+    private Label lblCourseGrade;
+	@FXML
+	private ComboBox<String> cbxGrade;
 	//TABLE: COURSES
 	@FXML
 	private TableView<Course> tblCourses;
@@ -125,30 +137,11 @@ public class Controller implements Initializable {
 	@FXML
 	private TableView<CourseStudents> tblCourseStudents;
 	@FXML
-	private TableColumn<CourseStudents, String> tvlColCourseStudentID;
+	private TableColumn<CourseStudents, String> tblColCourseStudentID;
 	@FXML
 	private TableColumn<CourseStudents, String> tblColCourseStudentName;
 	@FXML
 	private TableColumn<CourseStudents, String> tblColCourseStudentGrade;
-
-
-	//TAB: REGISTER
-	@FXML    
-	private Tab tabRegister;
-	@FXML
-	private Label lblRegisterStatus;
-	@FXML
-	private Label lblRegisterSuccess;
-	@FXML
-	private TableView<?> tblRegisterCourses;
-	@FXML
-	private TableView<?> tblRegisterStudents;
-	@FXML
-	private Button btnRegisterStudies;
-	@FXML
-	private Button btnRegisterHasStudied;
-	@FXML
-	private ComboBox<?> cbxGrade;
 
 	//INITIALIZATOR
 	@Override
@@ -173,9 +166,20 @@ public class Controller implements Initializable {
 		tblColCourseCredits.setCellValueFactory(new PropertyValueFactory<Course, String>("credits"));
 
 		//Tab: Course, Table: Students
-		tvlColCourseStudentID.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("studentID"));
+		tblColCourseStudentID.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("studentID"));
 		tblColCourseStudentName.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("name"));
 		tblColCourseStudentGrade.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("grade"));
+		
+		//Set gradevalues to combo box
+		String test[] = {"A","B","C","D","E","F"};
+		ObservableList<String> data = FXCollections.observableArrayList();
+		data.addAll(test);
+		cbxGrade.setItems(data);
+		
+		btnCourseDeleteStudent.setDisable(true);
+		btnRegisterStudies.setDisable(true);
+		btnRegisterHasStudied.setDisable(true);
+		cbxGrade.setDisable(true);
 
 		try {
 			database = new DataAccessLayer();
@@ -339,6 +343,9 @@ public class Controller implements Initializable {
 	public void findCourse() {
 		lblCourseStatus.setText("");
 		lblCourseSuccess.setText("");
+		lblShareGradesA.setText("");
+		cbxGrade.getSelectionModel().clearSelection();
+
 		try {
 			String courseID = txtCourseID.getText().toUpperCase();
 			ResultSet rs = database.getCourse(courseID);
@@ -365,6 +372,9 @@ public class Controller implements Initializable {
 	public void tblCourseSelected() {
 		lblCourseStatus.setText("");
 		lblCourseSuccess.setText("");
+		lblShareGradesA.setText("");
+		cbxGrade.getSelectionModel().clearSelection();
+
 		try {
 			if(!tblCourses.getSelectionModel().isEmpty()) {
 				int index = tblCourses.getSelectionModel().getSelectedIndex();
@@ -384,10 +394,16 @@ public class Controller implements Initializable {
 				txtCourseID.setText(course.getString(1));
 				txtCourseName.setText(course.getString(2));
 				txtCourseCredits.setText(course.getString(3));
+				btnCourseDeleteStudent.setDisable(true);
+				btnRegisterStudies.setDisable(true);
+				btnRegisterHasStudied.setDisable(true);
+				cbxGrade.setDisable(true);
+				String share = database.getShareGradeA(courseID);
+				lblShareGradesA.setText(share + "%");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			// TODO Auto-generated catch block
 		}
 	}
 
@@ -411,6 +427,9 @@ public class Controller implements Initializable {
 	public void registerCourse() {
 		lblCourseStatus.setText("");
 		lblCourseSuccess.setText("");
+		lblShareGradesA.setText("");
+		cbxGrade.getSelectionModel().clearSelection();
+
 		try {
 			String name = txtCourseName.getText();
 			int credits; 
@@ -425,6 +444,8 @@ public class Controller implements Initializable {
 					tblCourses.scrollTo(lastIndex);
 					txtCourseID.setText(newCourseID);
 					lblCourseSuccess.setText("Successfully registered course " + newCourseID);
+					lblShareGradesA.setText("0%");
+					tblCourseSelected();
 				} else {
 					lblCourseStatus.setText("Please enter valid value in credits, maximum allowed credits per course is 45");
 				} 				
@@ -441,6 +462,9 @@ public class Controller implements Initializable {
 	public void deleteCourse() {
 		lblCourseStatus.setText("");
 		lblCourseSuccess.setText("");
+		lblShareGradesA.setText("");
+		cbxGrade.getSelectionModel().clearSelection();
+
 		try {
 			if (!tblCourses.getSelectionModel().isEmpty()) {
 				String courseID = tblCourses.getSelectionModel().getSelectedItems().get(0).getCourseID(); 
@@ -459,23 +483,100 @@ public class Controller implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+	public void tblCourseStudentSelected() throws SQLException {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
+		btnCourseDeleteStudent.setDisable(true);
+		btnRegisterStudies.setDisable(true);
+		btnRegisterHasStudied.setDisable(true);
+		cbxGrade.getSelectionModel().clearSelection();
+		cbxGrade.setDisable(true);
 
-	public ResultSet getStudies(String courseID, String studentID) throws SQLException {
-		return database.getStudies(courseID, studentID);
-	}
 
-	public void registerStudies(String courseID, String studentID) throws SQLException {
-		database.registerStudies(courseID, studentID);
+			if(!tblCourseStudents.getSelectionModel().isEmpty()) {
+				int index = tblCourseStudents.getSelectionModel().getSelectedIndex();
+				String grade = tblColCourseStudentGrade.getCellData(index);
+				if (grade.equals("Participating")) {
+					btnCourseDeleteStudent.setDisable(false);
+					btnRegisterStudies.setDisable(true);
+					btnRegisterHasStudied.setDisable(false);
+					cbxGrade.setDisable(false);
+				} else if (grade.equals("Not registered")) {
+					btnCourseDeleteStudent.setDisable(true);
+					btnRegisterStudies.setDisable(false);
+					btnRegisterHasStudied.setDisable(true);
+					cbxGrade.setDisable(true);
+				}
+			}
 	}
-	public void deleteStudentFromCourse(String courseID, String studentID) throws SQLException {
-		database.deleteStudies(courseID, studentID);
-	}
+	
+	
+	@FXML
+	public void registerStudies() throws SQLException {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
+		cbxGrade.getSelectionModel().clearSelection();
 
-	public ResultSet getHasStudied(String courseID, String studentID) throws SQLException {
-		return database.getHasStudied(courseID, studentID);
+		try {
+			String courseID = tblCourses.getSelectionModel().getSelectedItems().get(0).getCourseID();
+			int selectedCourseCredits = tblCourses.getSelectionModel().getSelectedItems().get(0).getCredits();
+			String studentID = tblCourseStudents.getSelectionModel().getSelectedItems().get(0).getStudentID();
+			int credits = database.getCredits(studentID);
+			if ((credits + selectedCourseCredits) <= 45) {
+				database.registerStudies(courseID, studentID);
+				tblCourseStudents.setItems(null);
+				tblCourseSelected();
+				lblCourseSuccess.setText("Successfully registered student " + studentID + " to course " + courseID);
+			} else {
+				lblCourseStatus.setText("Student cannot study more than 45 credits during one semester");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void registerHasStudied(String grade, String courseID, String studentID) throws SQLException {
-		database.registerHasStudied(grade, courseID, studentID);
+	
+	@FXML
+	public void deleteStudentFromCourse() throws SQLException {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
+		lblShareGradesA.setText("");
+		cbxGrade.getSelectionModel().clearSelection();
+
+		try {
+				String courseID = tblCourses.getSelectionModel().getSelectedItems().get(0).getCourseID();
+				String studentID = tblCourseStudents.getSelectionModel().getSelectedItems().get(0).getStudentID();
+				database.deleteStudies(courseID, studentID);
+				tblCourseStudents.setItems(null);
+				tblCourseSelected();
+				lblCourseSuccess.setText("Successfully removed student " + studentID + " from course " + courseID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void registerHasStudied() throws SQLException {
+		lblCourseStatus.setText("");
+		lblCourseSuccess.setText("");
+		lblShareGradesA.setText("");
+		try {
+				String courseID = tblCourses.getSelectionModel().getSelectedItems().get(0).getCourseID();
+				String studentID = tblCourseStudents.getSelectionModel().getSelectedItems().get(0).getStudentID();
+				String grade = cbxGrade.getValue();
+				System.out.println(grade);
+				if (grade != null) {
+					database.registerHasStudied(grade, courseID, studentID);
+					tblCourseStudents.setItems(null);
+					lblCourseSuccess.setText("Successfully registered grade (" + grade + ") for student " + studentID + " on course " + courseID);					
+				} else {
+					lblCourseStatus.setText("Please choose a grade");
+				}
+				tblCourseSelected();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 

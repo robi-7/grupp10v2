@@ -63,7 +63,7 @@ public class DataAccessLayer {
 	}
 	
 	public ResultSet getStudentCourses(String studentID) throws SQLException {
-		String query = "SELECT c.courseID, c.name, c.credits, h.grade FROM Course c, HasStudied h WHERE h.studentID = '" + studentID + "' AND h.courseID = c.courseID UNION SELECT c.courseID, c.name, c.credits, 'Still participating' FROM Course c, Studies s WHERE s.studentID = '" + studentID + "' AND s.courseID = c.courseID";
+		String query = "SELECT c.courseID, c.name, c.credits, h.grade FROM Course c, HasStudied h WHERE h.studentID = '" + studentID + "' AND h.courseID = c.courseID UNION SELECT c.courseID, c.name, c.credits, 'Participating' FROM Course c, Studies s WHERE s.studentID = '" + studentID + "' AND s.courseID = c.courseID ORDER BY h.grade DESC";
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		return rs;
@@ -83,7 +83,7 @@ public class DataAccessLayer {
 		return rs;
 	}
 	public ResultSet getCourseStudents(String courseID) throws SQLException {
-		String query = "SELECT s.studentID, s.name, hs.grade FROM Student s, HasStudied hs WHERE hs.courseID = '" + courseID + "' AND hs.studentID = s.studentID UNION  SELECT s.studentID, s.name, 'Still participating' FROM Student s, Studies st WHERE st.courseID = '" + courseID + "' AND st.studentID = s.studentID ORDER BY hs.grade DESC";
+		String query = "SELECT s.studentID, s.name, hs.grade FROM Student s, HasStudied hs WHERE hs.courseID = '" + courseID + "' AND hs.studentID = s.studentID UNION SELECT s.studentID, s.name, 'Participating' FROM Student s, Studies st WHERE st.courseID = '" + courseID + "' AND st.studentID = s.studentID UNION SELECT s.studentID, s.name, 'Not registered' FROM Student s WHERE s.studentID NOT IN (SELECT DISTINCT studentID FROM Studies WHERE courseID = '" + courseID + "' UNION SELECT DISTINCT studentID FROM HasStudied WHERE courseID = '" + courseID + "') ORDER BY s.studentID ASC";
 		PreparedStatement ps = con.prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		return rs;
@@ -118,13 +118,6 @@ public class DataAccessLayer {
 		statement.executeUpdate(query);
 	}
 	
-	public ResultSet getStudies(String courseID, String studentID) throws SQLException {
-		String query = "SELECT * FROM Studies WHERE studentID = '" + studentID + "' AND courseID = '" + courseID + "'";
-		PreparedStatement ps = con.prepareStatement(query);
-		ResultSet rs = ps.executeQuery();
-		return rs;
-	}
-	
 	public void registerStudies(String courseID, String studentID) throws SQLException {
 		String query = "INSERT INTO Studies VALUES('"+ courseID +"', '" + studentID + "')";
 		Statement statement = con.createStatement();
@@ -136,15 +129,38 @@ public class DataAccessLayer {
 		statement.executeUpdate(query);
 	}
 		
-	public ResultSet getHasStudied(String courseID, String studentID) throws SQLException {
-		String query = "SELECT * FROM HasStudied WHERE studentID = '" + studentID + "' AND courseID = '" + courseID + "'";
-		PreparedStatement ps = con.prepareStatement(query);
-		ResultSet rs = ps.executeQuery();
-		return rs;
-	}
 	public void registerHasStudied(String grade, String courseID, String studentID) throws SQLException {
-		String query = "INSERT INTO HasStudied VALUES('"+ grade +"', '" + courseID + "', '" + studentID + "')";
+		String query = "DELETE FROM Studies WHERE studentID = '" + studentID + "' AND courseID = '" + courseID + "' INSERT INTO HasStudied VALUES('"+ grade +"', '" + courseID + "', '" + studentID + "')";
 		Statement statement = con.createStatement();
 		statement.executeUpdate(query);
+	}
+	
+	public String getShareGradeA(String courseID) {
+		String share;
+		try {
+			String query = "SELECT (Count(grade)*100 / (SELECT COUNT(*) FROM HasStudied WHERE courseID = '" + courseID + "')) FROM HasStudied WHERE courseID = '" + courseID + "' GROUP BY grade HAVING grade = 'A'";
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			share = rs.getString(1);
+		} catch (SQLException e) {
+			share = "0";
+		}
+		return share;
+	}
+	
+	public int getCredits(String studentID) throws SQLException {
+		int credits = 0;
+		try {
+			String query = "SELECT SUM(credits) FROM Course WHERE courseID IN (SELECT courseID FROM Studies WHERE studentID = '" + studentID + "')";
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			System.out.println(rs.getString(1));
+			credits = Integer.parseInt(rs.getString(1));
+		} catch (NumberFormatException e) {
+			credits = 0;
+		}
+		return credits;
 	}
 }
