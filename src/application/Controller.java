@@ -42,6 +42,7 @@ import tableModels.StudentCourses;
 import database.DataAccessLayer;
 
 public class Controller implements Initializable {
+	
 	//VARIABLES
 	private DataAccessLayer database;
 
@@ -135,6 +136,8 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<Course, String> tblColCourseCredits;
 	@FXML
+	private TableColumn<Course, String> tblColCourseThroughput;
+	@FXML
 	private TableView<CourseStudents> tblCourseStudents;
 	@FXML
 	private TableColumn<CourseStudents, String> tblColCourseStudentID;
@@ -164,6 +167,7 @@ public class Controller implements Initializable {
 		tblColCourseID.setCellValueFactory(new PropertyValueFactory<Course, String>("courseID"));
 		tblColCourseName.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
 		tblColCourseCredits.setCellValueFactory(new PropertyValueFactory<Course, String>("credits"));
+		tblColCourseThroughput.setCellValueFactory(new PropertyValueFactory<Course, String>("throughput"));
 
 		//Tab: Course, Table: Students
 		tblColCourseStudentID.setCellValueFactory(new PropertyValueFactory<CourseStudents, String>("studentID"));
@@ -194,7 +198,6 @@ public class Controller implements Initializable {
 		}
 	}
 
-
 	//METHODS
 	public void viewStudents() throws SQLException {
 		ResultSet rs = database.viewStudents();
@@ -210,6 +213,7 @@ public class Controller implements Initializable {
 		}
 		tblStudents.setItems(data);
 	}
+	
 	@FXML
 	public void findStudent()  {
 		lblStudentStatus.setText("");
@@ -232,7 +236,7 @@ public class Controller implements Initializable {
 			lblStudentSuccess.setText("Successfully found student " + studentID);
 		} catch(SQLException e) {
 			lblStudentStatus.setText("Student ID does not exist");
-			txtStudentName.setText("");		
+			txtStudentName.setText("");
 			txtStudentSsn.setText("");
 			txtStudentAddress.setText("");
 			txtStudentEmail.setText("");
@@ -241,6 +245,7 @@ public class Controller implements Initializable {
 		} 
 
 	} 
+	
 	@FXML
 	public void registerStudent()  {
 		lblStudentStatus.setText("");
@@ -266,6 +271,7 @@ public class Controller implements Initializable {
 						tblStudents.scrollTo(lastIndex); 
 						txtStudentID.setText(newStudentID);
 						lblStudentSuccess.setText("Successfully registered student " + newStudentID);
+						tblCourseSelected();
 					} else {
 						lblStudentStatus.setText("Please enter valid email");
 					}
@@ -287,6 +293,7 @@ public class Controller implements Initializable {
 			lblStudentStatus.setText("Social security number must consist of only numbers"); //DETTA HÄNDER NÄR DET BLIR ERROR I SSN PGA BOKSTÄVER
 		}
 	}
+	
 	@FXML
 	public void deleteStudent() throws SQLException {
 		lblStudentStatus.setText("");
@@ -304,6 +311,7 @@ public class Controller implements Initializable {
 				txtStudentAddress.setText("");
 				txtStudentEmail.setText("");
 				lblStudentSuccess.setText("Successfully deleted student " + studentID);
+				tblCourseSelected();
 			} else {
 				lblStudentStatus.setText("Please select a student in the list below first");
 			}
@@ -339,6 +347,7 @@ public class Controller implements Initializable {
 			txtStudentEmail.setText(student.getString(5));
 		}
 	}
+	
 	@FXML
 	public void findCourse() {
 		lblCourseStatus.setText("");
@@ -399,7 +408,7 @@ public class Controller implements Initializable {
 				btnRegisterHasStudied.setDisable(true);
 				cbxGrade.setDisable(true);
 				String share = database.getShareGradeA(courseID);
-				lblShareGradesA.setText(share + "%");
+				lblShareGradesA.setText(share);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -407,8 +416,6 @@ public class Controller implements Initializable {
 		}
 	}
 
-	// --- Printar ut credits i courseID, pga int:en?
-	@FXML
 	public void viewCourses() throws SQLException {
 		ResultSet rs = database.viewCourses();
 
@@ -417,7 +424,8 @@ public class Controller implements Initializable {
 			String courseID = rs.getString(1);
 			String name = rs.getString(2);
 			int credits = rs.getInt(3);
-			data.add(new Course(courseID,name,credits));
+			String throughput = database.getThroughput(courseID);
+			data.add(new Course(courseID,name,credits,throughput));
 
 		}
 		tblCourses.setItems(data);
@@ -458,6 +466,7 @@ public class Controller implements Initializable {
 			lblCourseStatus.setText("Please enter valid value in credits, it can only consist of numbers");
 		}
 	}
+	
 	@FXML
 	public void deleteCourse() {
 		lblCourseStatus.setText("");
@@ -476,6 +485,7 @@ public class Controller implements Initializable {
 				txtCourseName.setText("");		
 				txtCourseCredits.setText("");
 				lblCourseSuccess.setText("Successfully deleted course " + courseID);
+				tblStudentSelected();
 			} else {
 				lblCourseStatus.setText("Please select a course in the list below first");
 			}
@@ -512,7 +522,6 @@ public class Controller implements Initializable {
 			}
 	}
 	
-	
 	@FXML
 	public void registerStudies() throws SQLException {
 		lblCourseStatus.setText("");
@@ -529,6 +538,7 @@ public class Controller implements Initializable {
 				tblCourseStudents.setItems(null);
 				tblCourseSelected();
 				lblCourseSuccess.setText("Successfully registered student " + studentID + " to course " + courseID);
+				tblStudentSelected();
 			} else {
 				lblCourseStatus.setText("Student cannot study more than 45 credits during one semester");
 			}
@@ -551,6 +561,7 @@ public class Controller implements Initializable {
 				tblCourseStudents.setItems(null);
 				tblCourseSelected();
 				lblCourseSuccess.setText("Successfully removed student " + studentID + " from course " + courseID);
+				tblStudentSelected();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -569,7 +580,12 @@ public class Controller implements Initializable {
 				if (grade != null) {
 					database.registerHasStudied(grade, courseID, studentID);
 					tblCourseStudents.setItems(null);
-					lblCourseSuccess.setText("Successfully registered grade (" + grade + ") for student " + studentID + " on course " + courseID);					
+					lblCourseSuccess.setText("Successfully registered grade (" + grade + ") for student " + studentID + " on course " + courseID);
+					int index = tblCourses.getSelectionModel().getSelectedIndex();
+					viewCourses();
+					tblCourses.getSelectionModel().select(index);
+					tblCourseSelected();
+					tblStudentSelected();
 				} else {
 					lblCourseStatus.setText("Please choose a grade");
 				}

@@ -146,7 +146,21 @@ public class DataAccessLayer {
 		} catch (SQLException e) {
 			share = "0";
 		}
-		return share;
+		return share + "%";
+	}
+	
+	public String getThroughput(String courseID) {
+		int throughput;
+		try {
+			String query = "SELECT (Count(hs.grade)*100 / (SELECT COUNT(*) FROM HasStudied WHERE courseID = '" + courseID + "')) FROM HasStudied hs WHERE hs.courseID = '" + courseID + "' AND hs.grade = 'F'";
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			throughput = 100 - Integer.parseInt(rs.getString(1));
+		} catch (SQLException e) {
+			throughput = 0;
+		}
+		return throughput + "%";
 	}
 	
 	public int getCredits(String studentID) throws SQLException {

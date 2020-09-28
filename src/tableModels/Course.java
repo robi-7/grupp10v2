@@ -4,11 +4,13 @@ public class Course {
 	private String courseID;
 	private String name;
 	private int credits;
+	private String throughput;
 	
-	public Course(String courseID, String name, int credits) {
+	public Course(String courseID, String name, int credits, String throughput) {
 		this.courseID = courseID;
 		this.name = name;
 		this.credits = credits;
+		this.throughput = throughput;
 	}
 
 	public String getCourseID() {
@@ -33,6 +35,14 @@ public class Course {
 
 	public void setCredits(int credits) {
 		this.credits = credits;
+	}
+
+	public String getThroughput() {
+		return throughput;
+	}
+
+	public void setThroughput(String throughput) {
+		this.throughput = throughput;
 	}
 	
 	

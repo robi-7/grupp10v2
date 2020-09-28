@@ -108,9 +108,10 @@
                               <Label fx:id="lblCourseSuccess" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="353.0" />
                               <TableView fx:id="tblCourses" layoutX="21.0" layoutY="293.0" onKeyPressed="#tblCourseSelected" onMouseClicked="#tblCourseSelected" prefHeight="303.0" prefWidth="337.0">
                                 <columns>
-                                  <TableColumn fx:id="tblColCourseID" prefWidth="81.0" text="CourseID" />
-                                  <TableColumn fx:id="tblColCourseName" minWidth="0.0" prefWidth="140.0" text="Name" />
-                                    <TableColumn fx:id="tblColCourseCredits" minWidth="0.0" prefWidth="121.0" text="Credits" />
+                                  <TableColumn fx:id="tblColCourseID" prefWidth="67.0" text="CourseID" />
+                                  <TableColumn fx:id="tblColCourseName" minWidth="0.0" prefWidth="109.0" text="Name" />
+                                    <TableColumn fx:id="tblColCourseCredits" minWidth="0.0" prefWidth="60.0" text="Credits" />
+                                    <TableColumn fx:id="tblColCourseThroughput" minWidth="0.0" prefWidth="100.0" text="Throughput" />
                                 </columns>
                               </TableView>
                               <TableView fx:id="tblCourseStudents" layoutX="387.0" layoutY="13.0" onKeyPressed="#tblCourseStudentSelected" onMouseClicked="#tblCourseStudentSelected" prefHeight="461.0" prefWidth="356.0">
