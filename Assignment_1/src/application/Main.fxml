@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefWidth="770.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+   <children>
+      <Pane layoutX="4.0" prefHeight="667.0" prefWidth="766.0">
+         <children>
+            <TabPane layoutX="-4.0" layoutY="-1.0" prefHeight="667.0" prefWidth="770.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="tabStudent" text="Student">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="526.0" prefWidth="770.0">
+                           <children>
+                              <TextField fx:id="txtStudentID" layoutX="180.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" promptText="S000" />
+                              <Label layoutX="20.0" layoutY="20.0" text="Student ID:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="19.0" layoutY="60.0" text="Name:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="100.0" text="Social security number:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="140.0" text="Address">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="180.0" text="Email:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtStudentName" layoutX="180.0" layoutY="55.0" prefHeight="27.0" prefWidth="177.0" promptText="Full name" />
+                              <TextField fx:id="txtStudentSsn" layoutX="180.0" layoutY="95.0" prefHeight="27.0" prefWidth="177.0" promptText="YYMMDD-XXXX" />
+                              <TextField fx:id="txtStudentAddress" layoutX="180.0" layoutY="135.0" prefHeight="27.0" prefWidth="177.0" promptText="Street" />
+                              <TextField fx:id="txtStudentEmail" layoutX="180.0" layoutY="175.0" prefHeight="27.0" prefWidth="177.0" promptText="example@studies.com" />
+                              <Button fx:id="btnStudentRegister" layoutX="22.0" layoutY="225.0" mnemonicParsing="false" onAction="#registerStudent" prefHeight="27.0" prefWidth="80.0" text="Register" />
+                              <Button fx:id="btnStudentDelete" layoutX="281.0" layoutY="225.0" mnemonicParsing="false" onAction="#deleteStudent" prefHeight="27.0" prefWidth="80.0" text="Delete" />
+                              <Button fx:id="btnStudentFind" layoutX="152.0" layoutY="225.0" mnemonicParsing="false" onAction="#findStudent" prefHeight="27.0" prefWidth="80.0" text="Find" />
+                              <Label fx:id="lblStudentStatus" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="721.0" textFill="#fa0000" />
+                              <Label fx:id="lblStudentSuccess" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="721.0" />
+                              <TableView fx:id="tblStudents" layoutX="21.0" layoutY="293.0" onKeyPressed="#tblStudentSelected" onMouseClicked="#tblStudentSelected" prefHeight="303.0" prefWidth="724.0">
+                                <columns>
+                                  <TableColumn fx:id="tblColStudentStudentID" prefWidth="83.0" text="Student ID" />
+                                  <TableColumn fx:id="tblColStudentName" prefWidth="153.0" text="Name" />
+                                    <TableColumn fx:id="tblColStudentSsn" prefWidth="96.0" text="Ssn" />
+                                    <TableColumn fx:id="tblColStudentAddress" prefWidth="176.0" text="Address" />
+                                    <TableColumn fx:id="tblColStudentEmail" prefWidth="215.0" text="Email" />
+                                </columns>
+                              </TableView>
+                              <TableView fx:id="tblStudentCourses" layoutX="387.0" layoutY="13.0" prefHeight="239.0" prefWidth="356.0">
+                                <columns>
+                                  <TableColumn fx:id="tblColStudentCourseCourseID" prefWidth="62.0" text="Course ID" />
+                                  <TableColumn fx:id="tblColStudentCourseName" prefWidth="120.0" text="Name" />
+                                    <TableColumn fx:id="tblColStudentCourseCredits" prefWidth="45.0" text="Credits" />
+                                    <TableColumn fx:id="tblColStudentCourseGrade" prefWidth="128.0" text="Grade" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="tabCourse" text="Course">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="txtCourseID" layoutX="180.0" layoutY="15.0" prefHeight="27.0" prefWidth="177.0" promptText="C000" />
+                              <Label layoutX="20.0" layoutY="20.0" text="Course ID:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="100.0" text="Credits:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="60.0" text="Name:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtCourseName" layoutX="180.0" layoutY="55.0" prefHeight="27.0" prefWidth="177.0" promptText="Name" />
+                              <TextField fx:id="txtCourseCredits" layoutX="180.0" layoutY="95.0" prefHeight="27.0" prefWidth="177.0" promptText="##" />
+                              <Button layoutX="22.0" layoutY="225.0" mnemonicParsing="false" onAction="#registerCourse" prefHeight="27.0" prefWidth="80.0" text="Register" />
+                              <Button fx:id="btnCourseFind" layoutX="152.0" layoutY="225.0" mnemonicParsing="false" onAction="#findCourse" prefHeight="27.0" prefWidth="80.0" text="Find" />
+                              <Button fx:id="btnCourseDelete" layoutX="281.0" layoutY="225.0" mnemonicParsing="false" onAction="#deleteCourse" prefHeight="27.0" prefWidth="80.0" text="Delete" />
+                              <Button fx:id="btnCourseDeleteStudent" layoutX="621.0" layoutY="489.0" mnemonicParsing="false" onAction="#deleteStudentFromCourse" prefHeight="27.0" prefWidth="122.0" text="Remove student" />
+                              <Label fx:id="lblCourseStatus" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="348.0" textFill="RED" />
+                              <Label fx:id="lblCourseSuccess" layoutX="20.0" layoutY="260.0" prefHeight="17.0" prefWidth="353.0" />
+                              <TableView fx:id="tblCourses" layoutX="21.0" layoutY="293.0" onKeyPressed="#tblCourseSelected" onMouseClicked="#tblCourseSelected" prefHeight="303.0" prefWidth="337.0">
+                                <columns>
+                                  <TableColumn fx:id="tblColCourseID" prefWidth="67.0" text="CourseID" />
+                                  <TableColumn fx:id="tblColCourseName" minWidth="0.0" prefWidth="109.0" text="Name" />
+                                    <TableColumn fx:id="tblColCourseCredits" minWidth="0.0" prefWidth="60.0" text="Credits" />
+                                    <TableColumn fx:id="tblColCourseThroughput" minWidth="0.0" prefWidth="100.0" text="Throughput" />
+                                </columns>
+                              </TableView>
+                              <TableView fx:id="tblCourseStudents" layoutX="387.0" layoutY="13.0" onKeyPressed="#tblCourseStudentSelected" onMouseClicked="#tblCourseStudentSelected" prefHeight="461.0" prefWidth="356.0">
+                                 <columns>
+                                    <TableColumn fx:id="tblColCourseStudentID" prefWidth="77.0" text="StudentID" />
+                                    <TableColumn fx:id="tblColCourseStudentName" prefWidth="116.0" text="Name" />
+                                    <TableColumn fx:id="tblColCourseStudentGrade" prefWidth="162.0" text="Grade" />
+                                 </columns>
+                              </TableView>
+                              <Button fx:id="btnRegisterStudies" layoutX="621.0" layoutY="529.0" mnemonicParsing="false" onAction="#registerStudies" prefHeight="27.0" prefWidth="122.0" text="Register to course" />
+                              <Button fx:id="btnRegisterHasStudied" layoutX="621.0" layoutY="569.0" mnemonicParsing="false" onAction="#registerHasStudied" prefHeight="27.0" prefWidth="122.0" text="Register grade" />
+                              <ComboBox fx:id="cbxGrade" layoutX="457.0" layoutY="569.0" prefWidth="150.0" />
+                              <Label fx:id="lblCourseGrade" layoutX="457.0" layoutY="548.0" prefHeight="17.0" prefWidth="73.0" text="Grade:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="140.0" prefHeight="17.0" prefWidth="114.0" text="Share of grades A:">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblShareGradesA" layoutX="180.0" layoutY="140.0" prefHeight="17.0" prefWidth="114.0">
+                                 <font>
+                                    <Font name="PT Sans" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
